@@ -42,4 +42,7 @@
 
 ## Подтверждающее видео работы задания высокой сложности
 
-![Видео](03_high/video.mov)
+https://github.com/user-attachments/assets/c6032849-6e81-45f6-9c8c-a8f944d6eec4
+
+
+
