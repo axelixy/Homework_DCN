@@ -1,0 +1,55 @@
+@startuml
+hide footbox
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+
+actor "Клиент" as Client
+participant "Веб-сервер\nNginx" as Web
+participant "Сервер приложений\nPython / FastAPI" as App
+database "База данных\nPostgreSQL" as DB
+
+Client -> Web : POST /increment {"number": n}
+Web -> App : POST /increment {"number": n}
+activate App
+App -> App : Проверить: n — целое, 0 <= n <= N
+
+alt Некорректный запрос
+  App -> App : Записать INVALID_REQUEST в лог
+  App --> Web : 422 {"error": {"code": "INVALID_REQUEST"}}
+  Web --> Client : 422 {"error": {"code": "INVALID_REQUEST"}}
+else Корректный запрос
+  App -> DB : BEGIN
+  App -> DB : LOCK TABLE received_numbers IN EXCLUSIVE MODE
+  DB --> App : Блокировка получена
+  App -> DB : SELECT number WHERE number = n
+  DB --> App : Результат поиска
+
+  alt Число n уже поступало
+    App -> DB : COMMIT
+    DB --> App : Транзакция завершена
+    App -> App : Записать ALREADY_RECEIVED и n в лог
+    App --> Web : 409 {"error": {"code": "ALREADY_RECEIVED", "number": n}}
+    Web --> Client : 409 {"error": {"code": "ALREADY_RECEIVED", "number": n}}
+  else Число n поступило впервые
+    App -> DB : SELECT number WHERE number = n + 1 AND processed = TRUE
+    DB --> App : Результат поиска
+
+    alt Число n + 1 уже успешно обработано
+      App -> DB : INSERT (number = n, processed = FALSE)
+      App -> DB : COMMIT
+      DB --> App : Транзакция завершена
+      App -> App : Записать SUCCESSOR_ALREADY_PROCESSED и n в лог
+      App --> Web : 409 {"error": {"code": "SUCCESSOR_ALREADY_PROCESSED", "number": n}}
+      Web --> Client : 409 {"error": {"code": "SUCCESSOR_ALREADY_PROCESSED", "number": n}}
+    else Число n + 1 ещё не обработано
+      App -> DB : INSERT (number = n, processed = TRUE)
+      App -> DB : COMMIT
+      DB --> App : Транзакция завершена
+      App --> Web : 200 {"result": n + 1}
+      Web --> Client : 200 {"result": n + 1}
+    end
+  end
+end
+
+deactivate App
+@enduml

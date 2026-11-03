@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+
+actor "Клиент" as Client
+
+package "Уровень 1" {
+  component "Веб-сервер\nNginx" as Web
+}
+
+package "Уровень 2" {
+  component "Сервер приложений\nPython / FastAPI / Uvicorn\nПроверки и журналирование" as App
+}
+
+package "Уровень 3" {
+  component "База данных\nPostgreSQL" as DB
+}
+
+Client <--> Web : HTTP / JSON\nPOST /increment
+Web <--> App : HTTP / JSON\nпроксирование
+App <--> DB : SQL / транзакции\nreceived_numbers
+@enduml

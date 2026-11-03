@@ -1,0 +1,19 @@
+<circuit version="1.1.0-SR2" rev="260312" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="MCU" CircId="mega8-2" mainComp="false" Show_id="true" Show_Val="false" Pos="-164,-132" rotation="360" hflip="1" vflip="1" label="mega8-2" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="../build/03_high.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" MainMcu="true" SerialMon="-1" />
+
+<item itemtype="Oscope" CircId="Oscope-3" mainComp="false" Show_id="false" Show_Val="false" Pos="68,-76" rotation="0" hflip="1" vflip="1" label="Oscope-3" idLabPos="-90,-100" labelrot="0" valLabPos="-16,20" valLabRot="0" Basic_X="135 _px" Basic_Y="135 _px" BufferSize="600000" connectGnd="true" InputImped="10 MΩ" TimDiv="5000000000" TimPos="0,0,0,0," VolDiv="1,1,1,1," Tunnels=",,,," Trigger="4" Filter="0.1 V" AutoSC="4" Tracks="1" HideCh="false,false,false,false," VolPos="0,0,0,0," />
+
+<item itemtype="SerialTerm" CircId="SerialTerm-5" mainComp="false" Show_id="false" Show_Val="false" Pos="-40,-232" rotation="0" hflip="1" vflip="1" label="SerialTerm-5" idLabPos="-20,-32" labelrot="0" valLabPos="-16,20" valLabRot="0" Baudrate="9600 _Bd" DataBits="8 _bits" StopBits="1 _bits" SerialMon="false" />
+
+<item itemtype="Connector" uid="Connector-7" startpinid="mega8-2-PORTB1" endpinid="Oscope-3-Pin0" pointList="-124,-20,-92,-20,-92,-124,-20,-124" />
+
+<item itemtype="Connector" uid="Connector-8" startpinid="mega8-2-PORTB3" endpinid="Oscope-3-Pin1" pointList="-124,-36,-36,-36,-36,-92,-20,-92" />
+
+<item itemtype="Connector" uid="Connector-10" startpinid="mega8-2-PORTB0" endpinid="Oscope-3-Pin2" pointList="-172,-20,-212,-20,-212,24,-28,24,-28,-60,-20,-60" />
+
+<item itemtype="Connector" uid="Connector-11" startpinid="SerialTerm-5-pin0" endpinid="mega8-2-PORTD0" pointList="-64,-240,-212,-240,-212,-116,-172,-116" />
+
+<item itemtype="Connector" uid="Connector-12" startpinid="SerialTerm-5-pin1" endpinid="mega8-2-PORTD1" pointList="-64,-224,-240,-224,-240,-108,-172,-108" />
+
+</circuit>

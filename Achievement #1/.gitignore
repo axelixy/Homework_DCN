@@ -1,0 +1,10 @@
+# Результаты сборки AVRA
+/build/
+*.hex
+*.obj
+*.cof
+*.lst
+*.map
+
+# Служебные файлы macOS
+.DS_Store
